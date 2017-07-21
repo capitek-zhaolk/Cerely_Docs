@@ -1,6 +1,12 @@
-from django.shortcuts import render
-from CerelyApp.taske import add
+from django.views.generic.edit import FormView
+from CerelyApp.forms import CelerybackForm
 
-# Create your views here.
 
-add.delay(2, 2)
+class CelerybackView(FormView):
+    template_name = 'cerelyback/contact.html'
+    form_class = CelerybackForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.send_email()
+        return super(CelerybackView, self).form_valid(form)
